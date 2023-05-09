@@ -8,7 +8,7 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<Book, Long> {
 
     List<Book> findAll();
-    List<Book> findByName(String name);
+    Book findByName(String name);
 
 //    void saveAll(List<Book> books);
 }
