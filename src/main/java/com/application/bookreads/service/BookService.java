@@ -1,6 +1,8 @@
 package com.application.bookreads.service;
 
 import com.application.bookreads.model.Book;
+import com.application.bookreads.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,9 +11,14 @@ import java.util.List;
 @Service
 public class BookService {
 
-    public List<Book> getBooks() {
-        List<Book> books = new ArrayList<>();
+    @Autowired
+    BookRepository bookRepository;
 
-        return books;
+    public List<Book> getBooks() {
+        return bookRepository.findAll();
+    }
+
+    public void addBooks(List<Book> books) {
+        bookRepository.saveAll(books);
     }
 }
