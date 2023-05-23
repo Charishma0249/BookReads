@@ -11,14 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
+@RequestMapping("/books")
 public class BooksController {
 
     @Autowired
     BookService bookService;
 
-    @GetMapping("/books")
+    @GetMapping("/get/all")
+    @ResponseBody
     public List<Book> getBooks() {
+
         return bookService.getBooks();
     }
 
@@ -29,17 +32,33 @@ public class BooksController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/books/{id}")
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<HttpStatus> updateBook(@PathVariable Long id, @RequestBody Book book) {
+
+        bookService.updateBook(book, id);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/get/{id}")
     @ResponseBody
     public Optional<Book> getBookById(@PathVariable Long id) {
 
         return bookService.getBookById(id);
     }
 
-    @GetMapping("/books/name")
+    @GetMapping("/get")
     @ResponseBody
     public Book getBookByName(@RequestParam String name) {
 
+        //use regex to filter out the list of books with the same name
         return bookService.getBookByName(name);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteBook(@PathVariable Long id) {
+
+        bookService.deleteBook(id);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

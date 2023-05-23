@@ -1,5 +1,7 @@
 package com.application.bookreads.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +13,12 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Long Id;
+    @NonNull
+    public Long id;
+
+    @NonNull
     public String name;
-    public Date yearOfRelease;
+
+    @NonNull
+    public Date dateOfRelease;
 }
