@@ -33,11 +33,16 @@ public class BookService {
 
     public void updateBook(Book newBook, Long id) {
 
-        //TODO: change to update if it does not work
-        Optional<Book> oldBook = bookRepository.findById(id);
-        newBook.id = id;
-        bookRepository.deleteById(id);
-        bookRepository.save(newBook);
+        // If we delete the old book and save the new book, it is nothing but creating a new record,
+        // instead we can retrieve the old book, update it with the new values and re-save it!
+        Optional<Book> oldBookOptional = bookRepository.findById(id);
+
+        if(oldBookOptional.isPresent()) {
+            Book oldBook = oldBookOptional.get();
+            oldBook.setName(newBook.getName());
+            oldBook.setDateOfRelease(newBook.dateOfRelease);
+            bookRepository.save(oldBook);
+        }
     }
 
     public void deleteBook(Long id) {
